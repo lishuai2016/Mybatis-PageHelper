@@ -124,7 +124,7 @@ public interface Dialect {
     Object afterPage(List pageList, Object parameterObject, RowBounds rowBounds);
 
     /**
-     * 完成所有任务后
+     * 完成所有任务后【清空本次分页查询设置的参数，一次分页查询参数保证只能使用一次】
      */
     void afterAll();
 

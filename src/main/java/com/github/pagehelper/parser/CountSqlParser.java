@@ -36,7 +36,7 @@ import net.sf.jsqlparser.statement.select.*;
 import java.util.*;
 
 /**
- * sql解析类，提供更智能的count查询sql
+ * sql解析类，提供更智能的count查询sql【就是把原始SQL转化为求总数的count查询语句】
  *
  * @author liuzh
  */
@@ -237,7 +237,7 @@ public class CountSqlParser {
         COUNT_ITEM.add(new SelectExpressionItem(new Column("count(" + name +")")));
         if (selectBody instanceof PlainSelect && isSimpleCount((PlainSelect) selectBody)) {
             ((PlainSelect) selectBody).setSelectItems(COUNT_ITEM);
-        } else {
+        } else {//针对复杂查询，把原始查询转化为子查询，外层嵌套一个count查询
             PlainSelect plainSelect = new PlainSelect();
             SubSelect subSelect = new SubSelect();
             subSelect.setSelectBody(selectBody);
@@ -329,7 +329,7 @@ public class CountSqlParser {
      */
     public void processPlainSelect(PlainSelect plainSelect) {
         if (!orderByHashParameters(plainSelect.getOrderByElements())) {
-            plainSelect.setOrderByElements(null);
+            plainSelect.setOrderByElements(null);//去掉排序
         }
         if (plainSelect.getFromItem() != null) {
             processFromItem(plainSelect.getFromItem());

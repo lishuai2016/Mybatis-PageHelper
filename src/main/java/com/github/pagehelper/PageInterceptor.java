@@ -60,6 +60,8 @@ import java.util.Properties;
         }
 )
 public class PageInterceptor implements Interceptor {
+    //dialect：默认情况下会使用 PageHelper 方式进行分页，如果想要实现自己的分页逻辑，
+    // 可以实现 Dialect(com.github.pagehelper.Dialect) 接口，然后配置该属性为实现类的全限定名称。
     private volatile Dialect dialect;
     private String countSuffix = "_COUNT";
     protected Cache<String, MappedStatement> msCountMap = null;
@@ -86,7 +88,7 @@ public class PageInterceptor implements Interceptor {
                 cacheKey = (CacheKey) args[4];
                 boundSql = (BoundSql) args[5];
             }
-            checkDialectExists();
+            checkDialectExists();//这里初始化dialect，默认为PageHelper对象
 
             List resultList;
             //调用方法判断是否需要进行分页，如果不需要，直接返回结果

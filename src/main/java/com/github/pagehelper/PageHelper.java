@@ -46,8 +46,8 @@ import java.util.Properties;
  * @author liuzh/abel533/isea533
  * @version 5.0.0
  */
-public class PageHelper extends PageMethod implements Dialect {
-    private PageParams pageParams;
+public class PageHelper extends PageMethod implements Dialect {//调用无参数构造器执行之后，然后调用setProperties来初始化字段PageParams和PageAutoDialect
+    private PageParams pageParams;//设置的分页参数
     private PageAutoDialect autoDialect;
 
     @Override
@@ -63,7 +63,7 @@ public class PageHelper extends PageMethod implements Dialect {
             if (StringUtil.isEmpty(page.getCountColumn())) {
                 page.setCountColumn(pageParams.getCountColumn());
             }
-            autoDialect.initDelegateDialect(ms);
+            autoDialect.initDelegateDialect(ms);//自动匹配合适的分页方言
             return false;
         }
     }
